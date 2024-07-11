@@ -23,6 +23,15 @@ router.post('/' ,
 
         const salt = await bcrypt.genSalt(10);
         let securepass = await bcrypt.hash(req.body.password , salt);
+
+          let email = req.body.email
+        let userdata = await User.findOne({email});
+       
+        if(userdata){
+            res.json({success:false});
+          }
+
+        else{
            
            try{
                await User.create({
@@ -39,6 +48,7 @@ router.post('/' ,
                  console.log(error);
                  res.json({success:false});
            }
+        }
 })
 
 module.exports = router;
